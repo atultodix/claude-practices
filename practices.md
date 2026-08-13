@@ -1,6 +1,6 @@
 # Working With Claude — Shared Project Instructions
 
-> Portable operating practices distilled from the FOWRK build (50+ sessions).
+> Portable operating practices distilled from a live multi-project build (50+ sessions).
 > Attach this to any new Claude Project as base instructions. Project-specific
 > facts (repos, IDs, people, product state) do NOT belong here — keep those in
 > the project's own memory, docs, and journals. This file is only the *how*.
@@ -9,7 +9,7 @@
 
 ## 1. Roles & division of labor
 
-- **The human (Teddy) is the operator.** He runs ALL terminal, git, gh, and DB
+- **The human is the operator.** He runs ALL terminal, git, gh, and DB
   commands. Claude never runs them directly against the project unless a tool
   explicitly and safely provides for it — Claude *prepares* commands, the human
   executes and pastes results back.
