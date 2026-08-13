@@ -49,6 +49,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 **Only loading the page proves the page.** Walk any new or changed user-facing surface in a real browser against the deployed build: load it, do the thing it exists for, reload to confirm persistence, look at what rendered.
 *(Every route of a module 500'd on production for a day with 234 unit suites green — client-module exports called from server pages. A table's first row was invisible under a sticky header whose offset came from a prototype's shell.)*
 
+**Clear the dev build cache after a branch switch, before any dev-server walk.** A stale `.next` (or equivalent) can serve **bodyless 404s for an entire route subtree** — handlers never run, writes vanish silently, and it reads exactly like a code defect. Production builds fresh per deploy and cannot exhibit it, so the bug is un-reproducible where it matters. **The tell:** a 404 with **no error body** means the framework never reached your handler — your own error paths always return one. Routing failure, not code failure.
+*(Twice: a route that "didn't exist", and a ritual whose decisions silently failed to persist — the second nearly blamed on a merge that was fine.)*
+
 **Wait for the deploy before walking.** ~5 minutes from push to live. A walk against a stale build produces a false finding. If a walk contradicts a report, establish which build is live before concluding the fix failed.
 
 **Read a CI failure before believing it.** *"Canceling since a higher priority waiting request exists"* = superseded by a later push. *"Exceeded the maximum execution time"* = the suite outgrew the limit. A run that dies in under ~90s failed at setup, not in the tests.
