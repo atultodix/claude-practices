@@ -81,8 +81,12 @@ Chats end — on length, on context, or on a natural break. Continuity is a writ
 
 ## 5 · Knowing the ground
 
-**Check before you propose — and follow every "the SoT is elsewhere" pointer to its end.** Before proposing any *scheme* — taxonomy, labels, statuses, naming, priority model, workflow, folder structure — search for whether one already exists. **The tell is unmistakable: if you are about to invent categories or names for things, a convention almost certainly exists.** A doc that says "this is not the definition, the source of truth is X" is giving an instruction, not a footnote; familiarity with the citing doc is not knowledge of the cited one.
-*(A whole priority scheme proposed while a canonical one sat two files away — cited weekly, its pointer never followed. The same failure had already caused a taxonomy churn in that project months earlier.)*
+**Search before you add — and follow every "the SoT is elsewhere" pointer to its end.** Before adding *anything* to a shared store — an issue, a rule, a doc, a label, a convention — **search it first.** Two shapes of this failure, both expensive:
+
+- **Duplicating an entry.** Filing an issue for something already tracked splits the conversation, and the older entry is usually better — it has history the new one lacks. One search costs seconds; a duplicate costs the reconciliation later.
+- **Inventing a scheme that already exists.** Taxonomy, labels, statuses, naming, priority model, workflow. **The tell is unmistakable: if you are about to invent categories or names for things, a convention almost certainly exists.** A doc saying "this is not the definition, the source of truth is X" is giving an instruction, not a footnote — familiarity with the citing doc is not knowledge of the cited one.
+
+*(A whole priority scheme proposed while a canonical one sat two files away, cited weekly, its pointer never followed — the same failure that caused a taxonomy churn months earlier. And a duplicate issue filed **three hours after writing this rule**, because the first version of it said "before proposing a scheme" and a plain issue did not feel like a scheme. Scope it to the act, not the artefact: **adding anything to a shared store is the trigger.**)*
 
 **Read prod, not planning notes.** Before scoping anything, read the actual code, the actual issue body, the actual database state. Journals summarise; code is truth. Query the database rather than trusting a document about it.
 
