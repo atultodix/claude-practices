@@ -29,6 +29,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 
 **Never overwrite silently.** Filling an absent value and correcting a present one are **different verbs with different bars**. Correction requires a reason, keeps the old value visible, and is audited. Never relax the fill verb to allow edits.
 
+**Destructive actions outside scripts too — list, identify, then act.** Deleting branches, revoking tokens, removing files, dropping access: **print what will be destroyed and confirm the target account/tenant/repo before executing.** The listing is the plan step; run it as its own command and read it.
+*(Every token on the wrong account was revoked before anyone identified which account owned the leaked one.)*
+
 **Refuse loudly; never guess.** Ambiguous input (a two-digit year, an unparseable date, a duplicate key) is refused and listed with its row and reason. A guessed value is worse than an absent one.
 
 **Migrations:** create with `--create-only`; prod migrations apply via the deploy pipeline on push — never manually. **Regenerate the generated client after a schema change lands** — a stale client is the most common silent local breakage.

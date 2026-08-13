@@ -82,6 +82,17 @@ At the ceiling, or quarterly, whichever comes first: read every rule and ask *ha
 - **Project → here.** When a practice proves itself in a project, apply the five tests. If it passes, PR it here and note "promoted to shared practices" in that project's journal.
 - **Here → projects.** A rule learned here should be restated in active projects' own instructions in their own terms, not left waiting to be read at some future session start.
 
+### How a proposal actually travels
+
+A practice can surface in any project, but most sessions cannot open a PR. So:
+
+1. **The spotting session writes a proposal, not an edit** — four things: the rule in one sentence · the incident that produced it · which file it belongs in · **which of the five tests it is weakest on**. Naming the weakest test is not optional; a proposal claiming to pass all five equally has not been examined.
+2. **The human carries it** to whichever session currently owns these files.
+3. **That session rules in the open** — applies the tests, accepts, rejects, or accepts *as an edit to an existing rule*, and says why. Overturning the proposer's own self-assessment is normal and useful.
+4. **Batch the reviews.** Fold them into the existing board or journal pass rather than ruling one at a time — a single rule in isolation always looks reasonable; four together force the comparison the budget exists to create.
+
+**One session owns the files at a time.** Others propose. That keeps conflicting edits out and keeps the tests applied by someone holding the whole file in view.
+
 ### Who decides
 
 Proposals come by PR — from a person or from Claude. **The owner rules.** Claude's job when proposing is to *apply the five tests out loud and say which one the rule is weakest on* — not to advocate for its own suggestion.
