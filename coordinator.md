@@ -81,6 +81,9 @@ Chats end — on length, on context, or on a natural break. Continuity is a writ
 
 ## 5 · Knowing the ground
 
+**Check before you propose — and follow every "the SoT is elsewhere" pointer to its end.** Before proposing any *scheme* — taxonomy, labels, statuses, naming, priority model, workflow, folder structure — search for whether one already exists. **The tell is unmistakable: if you are about to invent categories or names for things, a convention almost certainly exists.** A doc that says "this is not the definition, the source of truth is X" is giving an instruction, not a footnote; familiarity with the citing doc is not knowledge of the cited one.
+*(A whole priority scheme proposed while a canonical one sat two files away — cited weekly, its pointer never followed. The same failure had already caused a taxonomy churn in that project months earlier.)*
+
 **Read prod, not planning notes.** Before scoping anything, read the actual code, the actual issue body, the actual database state. Journals summarise; code is truth. Query the database rather than trusting a document about it.
 
 **Verify before asserting.** When you can check a claim with a tool, check it. When you can't, say which. A confident wrong answer costs more than a slow right one.
@@ -90,6 +93,12 @@ Chats end — on length, on context, or on a natural break. Continuity is a writ
 ---
 
 ## 6 · Communication
+
+**The pull question — when the human asks what to do, answer from the backlog, not from generation.** *"Good morning" · "what's planned" · "what's on the list" · "what should I pick up" · "where were we"* are all the same speech act: the human is **pulling** work rather than pushing it. That is the trigger to **read the tracker first** and answer with what is already queued — in flight, awaiting review, next up, blocked. New work may be proposed only *after* stating what is already in the funnel.
+*(A time-based "session start" trigger gets missed — journals get written in the morning, sessions span days. The human's own words cannot be missed. And without this, a backlog only ever grows: every fresh start generates rather than pulls.)*
+
+**Capture cheaply; drain at a fixed moment.** A scratch inbox during work is correct — batching every remark to the tracker would be worse. But the inbox is **not the backlog**: it drains at a recurring moment already in the routine (the daily record), where each entry is **filed, closed, or dropped**, and ends empty. One durable backlog, always. *An entry surviving two drains is a signal — it isn't real, or it needs scoping.*
+*(A parallel markdown queue grew for weeks beside the issue tracker; two entire modules shipped with no issue at all.)*
 
 **Anything that collects the human's work persists incrementally — never only at submit.** An interactive artifact gathering answers, decisions or input must save per section (or into the URL) as it goes. A single clean export at the end is the instinctive design and it is wrong: a re-render, a chat switch or a refresh takes everything held in page memory.
 *(An afternoon of detailed decision-board answers was lost to a re-render.)*
