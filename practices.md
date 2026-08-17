@@ -294,6 +294,109 @@ the drafts before writing any files.
 
 ---
 
+## 11. Constraints — rules with an expiry
+
+Every rule in this file is one of three classes. **INVARIANT** — true
+regardless of tool, model or vendor (the human is the operator; never
+approve from a summary; enumerate, never count). **METHOD** — true because
+of how we choose to work (arcs, plan→show→approve, delivered-means-committed).
+Both change only when we change, and we know when we did. Unmarked rules in
+§1–§10 are Invariant or Method by content.
+
+The entries below are neither: each exists ONLY because something external
+is currently broken or limited, and each is therefore a bet that a vendor
+will not fix their thing. Vendors fix things. A constraint whose constraint
+has lifted is worse than no rule — it instructs wrongly, and it is trusted
+because it is written down.
+
+So every entry carries a RETEST — the cheap check that would falsify it —
+and a RETIRE-WHEN. An entry without a retest does not belong here; it is
+unfalsifiable and will outlive its cause. **Sweep on a trigger, not a
+calendar**: retest when the rule fires and the workaround does NOT help ·
+when the tool visibly ships an update · or when `last-retested` passes ~90
+days, swept in the close-the-day ritual. Deleting an entry is the success
+case.
+
+**Scope:** only constraints general to any project of this shape. A
+constraint of one vendor account, host or repo stays in that project's own
+space (its GOTCHAS file).
+
+| # | Constraint | Retest | Retire when | Observed | Last retested |
+|---|---|---|---|---|---|
+| C1 | Claude's sandbox `create_file` writes to Claude's computer, not the user's disk — repo writes go through the Filesystem MCP | `create_file` a repo path, read it back via Filesystem MCP | The file is there | unknown | — |
+| C2 | `gh auth switch` changes what git's credential helper presents, not just `gh` — a switch for one repo follows you to the next and 403s | Switch accounts for repo A, push a throwaway branch to repo B without re-switching | Push succeeds | 2026-08-17 | 2026-08-17 |
+| C3 | With issue templates present, `gh issue create --body` drops into the interactive picker — use `--body-file -` | One `--body` create on a templated repo | No picker | 2026-08-08 | — |
+| C4 | Native `prompt()`/`confirm()` dialogs cannot be driven by the browser tools — hand to the human | Drive one from the browser client | It accepts input | unknown | — |
+| C5 | Browser MCP shares the connected Chrome profile: its session/cookies/proxies are the HUMAN'S, so what it sees may not be canonical production (e.g. a profile pinned to a staging build) | Compare a URL via browser MCP vs an independent fetch | They match | 2026-08-17 | 2026-08-17 |
+| C6 | Browser-MCP calls hang ~4min against a tab a TAB-SUSPENDER extension has parked (idle time, not call count — two count-based theories falsified 2026-08-17). Recognise: `tabs_context_mcp` shows `chrome-extension://…/suspended.html`. Recover: RE-NAVIGATE the tab; no Chrome restart needed. Prevent: exclude the app's domains from the suspender | `tabs_context_mcp` when a call hangs; check the URL | Suspender uninstalled/excluded | 2026-08-17 | 2026-08-17 |
+| C7 | Local MCP servers (filesystem, browser) can wedge independently of each other and of the host app. The once-documented fix pairing ("filesystem→restart Claude Desktop, browser→restart Chrome") FAILED its first isolated test — a wedged filesystem MCP survived a Desktop restart and cleared on a later retry. Treat remedies as candidates: retry once → toggle the specific connector → restart host app, and record which one worked | Next wedge: try remedies in that order, note which cleared it | A remedy proves reliable across 3 wedges | 2026-08-17 | 2026-08-17 |
+| C8 | Chat attachments and pastes can silently arrive EMPTY — long content travels on disk | Observed-only; no forced test | Six months with no empty arrival | unknown | — |
+
+**Model capability is never a constraint entry.** "Model X refuses task
+type Y" went stale in one project and misdirected sessions for weeks. Model
+behaviour is measured per task, never recorded as durable.
+
+**Promotion discipline (extends §7):** classify every promoted rule as
+Invariant, Method or Constraint. A Constraint does not land without a
+retest recipe and a retire-when — if you cannot state what would falsify
+it, you do not yet understand it well enough to write it down.
+
+---
+
+## 12. The panel review — boundary artifacts [METHOD]
+
+Any artifact that crosses a boundary to another agent or authority — a
+design brief, a dispatch, a spec another session will build from, a
+document a client will read — passes a panel review before it is sent.
+Promoted 2026-08-17 on one demonstrated case (a type-scale brief: two
+blocking defects caught — a spec-vs-test contradiction and an unstated
+runtime dependency — that a careful single-author draft would have
+shipped). One case is thinner evidence than promotion usually wants; the
+mitigation is that the rule is cheap and self-reporting — the defect lists
+it requires accumulate the evidence either way.
+
+**The mechanism is a fresh adversarial pass, not the scores.** Panelists
+exist to kill the draft. A review that produces no findings on the first
+pass is a failed review, not a passed artifact.
+
+**Panel composition.** Two panelists, each a distinct design/engineering
+philosophy (hat), chosen to disagree — e.g. a systems-completeness
+reviewer vs a delete-complexity reviewer. Claude wears both by default.
+At least one reviews BLIND: a fresh session given only the artifact and
+the rubric, none of the drafting context — same-context review inherits
+the author's anchoring. An external-model panelist is an optional
+escalation for the highest-stakes artifacts, never a dependency of the
+default flow.
+
+**Protocol.**
+1. Fix the rubric parameters per artifact type BEFORE reviewing.
+2. Each panelist scores /100 per parameter and lists findings,
+   independently — no panelist sees another's output before committing
+   its own.
+3. Findings are classed: BLOCKING (internal contradiction, incl.
+   spec-vs-its-own-test; unstated external dependency; scope leak; claim
+   without measurement) or ADVISORY.
+4. Panelists compare, argue, converge on a fix list. The author applies
+   fixes; the panel re-scores the amended artifact.
+
+**The gate, conjunctive:** every panelist ≥90 AND zero unresolved
+blocking findings AND every finding resolved or explicitly ruled by the
+human. Scores never launder a live blocker.
+
+**Recorded with the artifact:** scores, the defect list, and what
+changed. The defect list is the review's real output; the scores are its
+summary.
+
+**Deliverables arrive with their landing command [INVARIANT].** When an
+artifact is ready, the message that delivers it carries the exact
+command(s) to commit/push it — every repo, every store, no exceptions —
+and the command block must be runnable end-to-end with ZERO editing: no
+comment standing in for a step, no "apply the changes here" placeholder.
+(The first delivery of this very rule violated it both ways.) "Ready to
+commit" without the command is an unfinished delivery.
+
+---
+
 *Maintenance — keep this file fed, in BOTH directions. When a rule, policy or
 hygiene practice is added to any project's own instructions, ask: is it true
 only of that project, or of any project of this shape? If it generalises,

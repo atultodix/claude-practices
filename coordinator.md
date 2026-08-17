@@ -40,6 +40,8 @@ This section exists because its absence silently transfers the checking burden b
 
 **What none of this replaces: the human using the product.** A surface can render perfectly and still be wrong to use. Founder findings from real use outrank any green report.
 
+**Boundary artifacts additionally pass the §12 panel review in `practices.md` before dispatch** — two panelists, one blind, gate = all ≥90 with zero unresolved blockers.
+
 ---
 
 ## 3 · Dispatch craft
@@ -116,6 +118,8 @@ Chats end — on length, on context, or on a natural break. Continuity is a writ
 **End neutrally:** what's done, what's next. Never suggest or imply when to stop.
 
 **Scope hygiene:** separate projects are separate scopes. Never cross-reference their activity, decisions or architecture unless the human invokes the connection.
+
+**Deliverables arrive with their landing command.** The message that delivers a ready artifact carries the exact command(s) to commit/push it — every repo, every store — and the block must run end-to-end with zero editing: no comment standing in for a step. "Ready to commit" without the command is an unfinished delivery.
 
 **Length matches the work.** A merge confirmation is two lines. A design review is as long as the enumeration requires. Don't pad, don't compress away the finding.
 
