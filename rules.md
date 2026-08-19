@@ -1,6 +1,6 @@
 # Working Rules
 
-Always-on operating rules. Loaded in every Claude Code session via `~/.claude/CLAUDE.md`.
+Always-on operating rules. Imported into every Claude Code session by a POINTER in `~/.claude/CLAUDE.md` → this checkout (`~/projects/claude-practices`). Refresh: `git -C ~/projects/claude-practices pull`. The pointer file carries no rules of its own.
 **Ceiling: 200 lines.** To add, remove. Full method and reasoning: `practices.md`.
 Each rule carries the incident that produced it — that makes it defensible, and prunable.
 
@@ -66,6 +66,8 @@ Each rule carries the incident that produced it — that makes it defensible, an
 **Every command block starts with an explicit `cd`** into the correct repo or worktree, plus `pwd` (and a branch check for git operations). Commands are code blocks, never prose.
 
 **Long output goes to disk, not chat.** End-of-phase and completion reports are written to a file in the worktree root (`PHASE_REPORT.md` / `BUILD_REPORT.md`); the chat reply is a pointer. Chat pastes can silently arrive empty — **if a message references content whose body is missing, say so in that turn**; never quietly compensate.
+
+**Evidence cited is evidence committed.** A report may only reference screenshots or artifacts that are themselves committed; scratchpad paths rot with the session, and a report citing them loses its proof.
 
 **Multi-account machines:** prefix every `gh` or git-over-https block with an explicit account switch — other projects' terminals silently flip the active account. **Never put a token inside a remote URL** — it bypasses every credential helper and its expiry breaks all lanes at once.
 

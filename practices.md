@@ -328,9 +328,10 @@ space (its GOTCHAS file).
 | C3 | With issue templates present, `gh issue create --body` drops into the interactive picker — use `--body-file -` | One `--body` create on a templated repo | No picker | 2026-08-08 | — |
 | C4 | Native `prompt()`/`confirm()` dialogs cannot be driven by the browser tools — hand to the human | Drive one from the browser client | It accepts input | unknown | — |
 | C5 | Browser MCP shares the connected Chrome profile: its session/cookies/proxies are the HUMAN'S, so what it sees may not be canonical production (e.g. a profile pinned to a staging build) | Compare a URL via browser MCP vs an independent fetch | They match | 2026-08-17 | 2026-08-17 |
-| C6 | Browser-MCP calls hang ~4min against a tab a TAB-SUSPENDER extension has parked (idle time, not call count — two count-based theories falsified 2026-08-17). Recognise: `tabs_context_mcp` shows `chrome-extension://…/suspended.html`. Recover: RE-NAVIGATE the tab; no Chrome restart needed. Prevent: exclude the app's domains from the suspender | `tabs_context_mcp` when a call hangs; check the URL | Suspender uninstalled/excluded | 2026-08-17 | 2026-08-17 |
-| C7 | Local MCP servers (filesystem, browser) can wedge independently of each other and of the host app. The once-documented fix pairing ("filesystem→restart Claude Desktop, browser→restart Chrome") FAILED its first isolated test — a wedged filesystem MCP survived a Desktop restart and cleared on a later retry. Treat remedies as candidates: retry once → toggle the specific connector → restart host app, and record which one worked | Next wedge: try remedies in that order, note which cleared it | A remedy proves reliable across 3 wedges | 2026-08-17 | 2026-08-17 |
+| C6 | Browser-MCP wedges have TWO distinct modes (both ~4min hangs). MODE A — idle: a tab-suspender parks the idle MCP tab (recognise: `tabs_context_mcp` shows `chrome-extension://…/suspended.html`; recover: RE-NAVIGATE; prevent: exclude the app's domains). MODE B — hard: hits ACTIVE tabs mid-burst, even `tabs_context_mcp` hangs (observed 2×, 2026-08-18); recover: Chrome ⌘Q. Two count-based theories falsified 2026-08-17 | Hang → call `tabs_context_mcp`: suspended URL = mode A; the call itself hanging = mode B | A: suspender excluded/uninstalled · B: cause found | 2026-08-18 | 2026-08-18 |
+| C7 | Local MCP servers wedge independently of each other and of the host app; filesystem wedges correlate with idle-then-use (7 of 7 observed). NO remedy is yet reliable — ledger: retry 2/5 · connector toggle 3/4 · Desktop restart 1/2 (one PARTIAL: reads cleared, first write hung — read/write asymmetry, 2026-08-19) · Chrome restart EXONERATED for filesystem (0/1, controlled test). A HALF-ALIVE state exists: no-argument calls answer while disk ops hang — and a successful probe does NOT immunise the next real call (probe-absorbs-wedge theory falsified 2026-08-19). Order: retry once → toggle connector → restart host app; record which cleared it. When writes stay wedged, fall back to terminal-applied edits (self-verifying script; the invariant still holds) | Next wedge: remedies in order, update the ledger counts | A remedy reaches 5-for-5 | 2026-08-19 | 2026-08-19 |
 | C8 | Chat attachments and pastes can silently arrive EMPTY — long content travels on disk | Observed-only; no forced test | Six months with no empty arrival | unknown | — |
+| C9 | `raw.githubusercontent.com` serves stale CDN cache (observed ~18h behind a push) — NEVER treat a raw-URL fetch as evidence of a file's current content, and especially not of an ABSENCE in it. Verify via a fresh clone or `gh api`. Bootstrap reads go through the practices checkout (§13), never raw | After any push: compare raw fetch vs `gh api` content | GitHub pins raw to commit, or all consumers read the checkout | 2026-08-19 | 2026-08-19 |
 
 **Model capability is never a constraint entry.** "Model X refuses task
 type Y" went stale in one project and misdirected sessions for weeks. Model
@@ -368,6 +369,17 @@ the author's anchoring. An external-model panelist is an optional
 escalation for the highest-stakes artifacts, never a dependency of the
 default flow.
 
+**Stakes scope (amended 2026-08-19, founder ruling).** The full panel —
+both hats, one blind — applies to IRREVERSIBLE or EXTERNALLY-VISIBLE
+artifacts: client documents, public specs, contracts, anything a
+correction cannot quietly supersede. INTERNAL briefs between our own
+agents (a dispatch, a design brief whose output returns for review) get a
+SINGLE fresh-eyes pass — iteration is cheap there, and the review of the
+resulting work is the real net. Provenance: the rule's first subject (an
+internal type brief) failed the full gate at 48/100 and the founder ruled
+the process heavier than the stakes; the failure was real, and so was the
+overhead.
+
 **Protocol.**
 1. Fix the rubric parameters per artifact type BEFORE reviewing.
 2. Each panelist scores /100 per parameter and lists findings,
@@ -394,6 +406,41 @@ and the command block must be runnable end-to-end with ZERO editing: no
 comment standing in for a step, no "apply the changes here" placeholder.
 (The first delivery of this very rule violated it both ways.) "Ready to
 commit" without the command is an unfinished delivery.
+
+---
+
+## 13. The instruction system itself [METHOD]
+
+One store, three consumers (architecture ruled 2026-08-19, replacing
+raw-URL fetches after C9 bit):
+
+- **The store:** the private repo `claude-practices`, checked out
+  read-mostly at `~/projects/claude-practices`. Refresh before reading:
+  `git -C ~/projects/claude-practices pull`.
+- **Chat sessions** read `coordinator.md` + `rules.md` from the checkout
+  via the filesystem at session start (`practices.md` once per project),
+  prompted automatically by the project's own instructions. A missing or
+  unpullable checkout is a STOP, never a licence to proceed on memory.
+- **Claude Code sessions** import `rules.md` through a three-line pointer
+  in `~/.claude/CLAUDE.md` (`@…/claude-practices/rules.md`) — verified
+  live by canary quote 2026-08-19. The pointer file carries NO rules of
+  its own; a full copy there is the second-store failure this section
+  exists to prevent (one was found and replaced 2026-08-19, coincidentally
+  still in sync).
+- **Edits** happen in the checkout: pull → edit → commit+push the same
+  sitting, never left dirty. The temp-clone edit flow is retired.
+- **Session lifecycle for builders: one arc, one session.** A follow-up,
+  gate fix, or review response goes to the arc's own session — its fence
+  still governs. A NEW arc gets a FRESH session off pulled main: committed
+  reports carry context forward by design, and a session holding a
+  finished arc's fence plus a new dispatch has two live instruction sets
+  with an undefined blend. Close the old session at merge. (Weakest on
+  paid-in-blood — principled prevention, no scar yet.)
+- **Evidence cited is evidence committed.** A committed report may only
+  reference screenshots/artifacts that are themselves committed (the
+  planning repo's `reports/assets/` or the worktree); scratchpad paths rot
+  with the session — seven cited screenshots were lost this way on
+  2026-08-18.
 
 ---
 
