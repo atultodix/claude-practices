@@ -73,6 +73,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 
 **Branch hygiene:** prune merged branches when they exceed ~20, during the board pass. Never prune a branch absent from `--merged origin/main`; git refuses branches a worktree holds, and that refusal is the safety net.
 
+**Scheduled workflows: at most 2x/day, once daily preferred — anything more needs the founder's explicit approval.** State the cadence's reason in the workflow file.
+*(Two hourly smokes silently burned the entire monthly Actions quota; the failure email arrived before anyone knew the meter was running.)*
+
 **Local merge by default; a draft PR when the change is infrastructural** — CI, auth, migrations, the workflow itself — so checks run *before* the merge rather than after.
 *(A CI change merged straight to main would have broken the gate with no warning.)*
 
