@@ -456,3 +456,21 @@ would a different project, with a different codebase, have been better off
 knowing this? A lesson learned once should not be relearned per repository.
 Genuinely project-specific things — prod hosts, account names, module
 boundaries, a pilot's vocabulary — stay in that project's own space.*
+
+## §14 — Added 2026-08-20 (WHR coordinator session, founder-approved)
+1. **Measure rendered behaviour, not source.** A static read of href/markup is
+   not evidence of behaviour; navigation may live in JS. Click it, render it,
+   probe it. (Origin: a "dead CTA" audit that survived four review layers
+   before one click disproved it.)
+2. **Match preview deployments by commit SHA**, never positionally from
+   vercel ls. A wrong-branch walk is indistinguishable from "the fix didn't
+   work."
+3. **gh commands go interactive without warning.** Never paste multi-command
+   blocks that include gh; queued input gets consumed as prompt answers. One
+   block, wait, next.
+4. **After any squash-merge, pull before reporting repo state.** Stale working
+   copies produce confident false claims ("file untracked", "edit missing").
+5. **Search before adding — issues, and these sections.** Multiple lanes file
+   in parallel; absence of pasted output is not absence of action. Two
+   duplicate issue pairs in one day, and this very section was nearly filed
+   as a duplicate §12.
