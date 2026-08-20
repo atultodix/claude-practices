@@ -502,3 +502,23 @@ PRIORITY HONESTY:
   re-affirmed as P0/P1 — silence is a downgrade, not a keep.
 - Day-close records open count by priority and net flow (filed vs closed).
   Net-positive for a week is the alarm, not the absolute number.
+
+## §16 — Identity and shell mechanics (founder-approved 2026-08-21)
+1. **Git identity is untrusted machine state.** Lanes assert `git config
+   user.email` in their worktree BEFORE the first commit. The durable
+   author form is the GitHub noreply address (unclaimable by any other
+   account). Machine-global config can drift from unknown sources.
+2. **Verify account↔email mappings against the provider's response, never
+   by inference.** Gmail dot-aliases are one inbox but DIFFERENT GitHub
+   accounts. The tell: a deploy bot failing while CI passes names the
+   author login it rejected — read the error before suspecting the code.
+3. **A coordinator's wrong briefing propagates at dispatch speed.** Lanes
+   measure before believing, revert to known-good SHAs, and report the
+   contradiction rather than working around it.
+4. **gh bodies with shell metacharacters** (!, $, backticks) go through
+   `--body-file -` heredocs with a quoted delimiter.
+5. **Squash-merge repos:** `--merged` is blind. Branch hygiene = PR↔branch
+   mapping; pre-delete content check = tree-diff against the squash commit.
+6. **Dispatches cite only artifacts verified to exist** — naming a guard or
+   test that doesn't exist sends lanes hunting phantoms or, worse, trusting
+   phantom protection.
