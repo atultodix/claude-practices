@@ -474,3 +474,31 @@ boundaries, a pilot's vocabulary — stay in that project's own space.*
    in parallel; absence of pasted output is not absence of action. Two
    duplicate issue pairs in one day, and this very section was nearly filed
    as a duplicate §12.
+
+## §15 — Board hygiene: filing and decay (founder-ruled 2026-08-21)
+
+FILE an issue only when: (a) the work/defect must survive the session — the
+board is the org's memory, chat is provably lossy; (b) evidence with
+measurements needs a home a future arc will build against; (c) an external
+dependency needs a trail. NEVER file when: it's a facet of an existing issue
+(comment there); it's doable inside the current arc; it's speculative with no
+trigger (planning docs or nowhere — ideas are not backlog). Always search
+before filing (§14.5).
+
+DECAY — by TYPE, not uniformly:
+- **Bugs** do not age out. They close only when fixed or no longer
+  reproducible (re-verify, don't assume). Their PRIORITY may decay; the bug
+  itself stays until reality changes.
+- **Features / improvements** decay: reviewed at 2 weeks; if kept, re-checked
+  every 2 weeks; at 30 days a keep-or-close decision is mandatory. Closing is
+  not losing the idea — reopening is free.
+- **Decisions** must not sit: schedule the ruling or move the material to a
+  planning doc and close.
+- **External** items run on nudge cadence, not decay — each check-in recorded
+  on the issue.
+
+PRIORITY HONESTY:
+- P0/P1 reviewed WEEKLY: each one is cleaned, reviewed, and EXPLICITLY
+  re-affirmed as P0/P1 — silence is a downgrade, not a keep.
+- Day-close records open count by priority and net flow (filed vs closed).
+  Net-positive for a week is the alarm, not the absolute number.
