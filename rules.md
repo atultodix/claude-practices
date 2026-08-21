@@ -76,6 +76,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 **Scheduled workflows: at most 2x/day, once daily preferred — anything more needs the founder's explicit approval.** State the cadence's reason in the workflow file.
 *(Two hourly smokes silently burned the entire monthly Actions quota; the failure email arrived before anyone knew the meter was running.)*
 
+**CI triggers: `pull_request` + `push` to main only — never bare `push`; `concurrency` with `cancel-in-progress` always; heavy suites (browser e2e) on PR/main only, fast checks may run wider.** The same SHA must never bill twice.
+*(A high-tempo week fired a five-job Playwright pipeline twice per commit — ~2,400 minutes in five days, a second dead quota three days after the first.)*
+
 **Local merge by default; a draft PR when the change is infrastructural** — CI, auth, migrations, the workflow itself — so checks run *before* the merge rather than after.
 *(A CI change merged straight to main would have broken the gate with no warning.)*
 
