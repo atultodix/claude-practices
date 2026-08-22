@@ -522,3 +522,14 @@ PRIORITY HONESTY:
 6. **Dispatches cite only artifacts verified to exist** — naming a guard or
    test that doesn't exist sends lanes hunting phantoms or, worse, trusting
    phantom protection.
+
+## §14 addendum — layered failures wear the same words (DISPATCH-16, 2026-08-23)
+Four distinct failures produced the identical symptom string ("copy is
+covered by <img>"): the instrument stopped waiting; the reveal never ran;
+the probe couldn't position itself; the reveal ran and still ended
+covered. Each was invisible until the one before it was made honest.
+Corollaries: (1) making a failure LEGIBLE is the fix that unlocks every
+subsequent fix — pursue honesty before pursuing green; (2) no
+discriminator can be stable while the defect it classifies is
+intermittent — classify by OUTCOME, gate only the unambiguous; (3) a
+single control run is never an attribution.
