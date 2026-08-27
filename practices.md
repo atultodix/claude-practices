@@ -533,3 +533,13 @@ subsequent fix — pursue honesty before pursuing green; (2) no
 discriminator can be stable while the defect it classifies is
 intermittent — classify by OUTCOME, gate only the unambiguous; (3) a
 single control run is never an attribution.
+
+## §14 addendum 2 — a branch can look gated and be ungated (DISPATCH-25, 2026-08-26)
+During a GitHub Actions incident, a pull_request event produced NO run at
+all — not a red run, no run — while mergeStateStatus still read CLEAN.
+Green ticks and CLEAN states are claims about runs that happened; they
+say nothing about runs that silently never started. Before treating a
+branch as gated: confirm the expected runs EXIST for the head SHA
+(count them, don't infer from absence-of-red). Related: the 16-green
+catch (§14 addendum) — both are the same lesson from opposite sides:
+the dashboard's color is not the property; the enumerated evidence is.
