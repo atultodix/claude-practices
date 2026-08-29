@@ -59,6 +59,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 
 **Enumerate; never count.** When a spec defines N surfaces or N criteria, list each by name against its artifact — *"S1 → /admin/exit-cases ✓ · Overview → not built ✗"*. "All green" hides gaps that an enumerated list cannot.
 
+**A gate is a COMMAND AND AN EXIT CODE, never an adjective.** Report `npx tsc --noEmit → exit 0` and `npm test → 1504/1504, exit 0`, not "tsc clean" / "suite green" — an adjective is a claim about a run nobody can re-run. Assert **exit 0**; never interpret a non-zero value (tsc returns 1 or 2 for the same failing code). Four ways the number lies: a **pipe reports the pipe's** status (`tsc --noEmit | tail` exits 0 on a failing typecheck — use `set -o pipefail`); **two commands that both look like "the typecheck" disagree** (`next build` discards every diagnostic in a `*.test.*` / `*.spec.*` file); an **incremental cache replays a stale verdict in both directions** (pass `--incremental false` rather than remembering to clear it); and an **already-red gate hides the next red** — and everything behind the first failure is unmeasured, so say so.
+*(Five mis-measuring gates in one week; a typecheck red on main for nine consecutive merges while every arc reported "tsc clean".)*
+
 **Say when you verified less than you claim.** "Reviewed from the report only, artifact unread." "Not walked — browser unavailable." Silence implies the full check happened.
 
 ## 4 · Terminal, git, reports

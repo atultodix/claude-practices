@@ -543,3 +543,68 @@ branch as gated: confirm the expected runs EXIST for the head SHA
 (count them, don't infer from absence-of-red). Related: the 16-green
 catch (§14 addendum) — both are the same lesson from opposite sides:
 the dashboard's color is not the property; the enumerated evidence is.
+
+## §14 addendum 3 — a gate is a COMMAND AND AN EXIT CODE, never an adjective (arc/instrument-integrity, #116, 2026-08-29)
+
+Gates were being reported with adjectives — "tsc clean", "suite green",
+"build passes". An adjective is a claim about a run nobody else can
+re-execute, and five mis-measuring gates in one week (#103, #110, #114,
+#115, #117) all reached a merge wearing one.
+
+**THE CONVENTION.** Every gate in a dispatch or a report states the
+command it ran and the exit code it got, plus the counts where the runner
+gives them:
+
+```
+npx tsc --noEmit          → exit 0
+npm test                  → 1504/1504, exit 0
+npm run test:e2e          → 109 passed / 0 failed, exit 0
+next build                → exit 0, 74/74 pages
+```
+
+Not "typecheck clean". The command is the thing a reader can re-run, and
+the exit code is the thing that cannot be rounded up. A gate that cannot
+be written in this form has not been run.
+
+**ASSERT `exit 0`, NEVER interpret a non-zero value.** `tsc` returns 1
+and 2 for the same failing code depending only on whether it wrote its
+build-info file — measured, both on the same source in one sitting. Zero
+is the property; every other number is just "not zero".
+
+Four ways a gate reports something other than what it measured. All four
+were measured on one repo in one day, and #116 hid behind them for a week:
+
+1. **A PIPE REPORTS THE PIPE'S EXIT CODE.** `npx tsc --noEmit | tail -1`
+   exits **0** on a typecheck that fails — so does `| grep`, `| tee`, and
+   a wrapper whose last statement is an `echo`. Measured: bare `→ exit 2`,
+   the same command piped `→ exit 0`. Never read a gate's status through a
+   pipe. Use `set -o pipefail`, or capture the bare command's status
+   before anything touches it.
+2. **TWO COMMANDS THAT BOTH LOOK LIKE "THE TYPECHECK" CAN DISAGREE.**
+   `next build` runs a typecheck and **discards every diagnostic in a
+   `*.test.*`, `*.spec.*` or `__tests__/` file** (`runTypeCheck.js`'s
+   `regexIgnoredFile`). All four of #116's errors were in test files, so
+   the deploy lane exited 0 on the exact code where `tsc --noEmit` exited
+   2. Name which command produced the exit code; "the typecheck passed" is
+   ambiguous between lanes that genuinely disagree.
+3. **AN INCREMENTAL CACHE CAN REPLAY A STALE VERDICT, IN BOTH
+   DIRECTIONS.** With `incremental: true`, a `tsconfig.tsbuildinfo`
+   carried across a *compilerOptions* change is not invalidated: measured
+   `tsc --noEmit → exit 0, 0 errors` on code carrying three real errors,
+   and the mirror-image stale RED on code that was clean. File edits *are*
+   invalidated correctly, which is what makes it so hard to catch. Make the
+   gate command immune rather than remembering to clear the cache —
+   `tsc --noEmit --incremental false`.
+4. **AN ALREADY-RED GATE HIDES THE NEXT RED.** CI on that repo's `main`
+   had been failing for nine consecutive merges — first on a unit test,
+   then, once that was fixed, on the typecheck, which aborts the step
+   before the unit suite ever runs. Nobody could tell a new red from the
+   standing one, so nobody read either. Corollary: a red gate is an
+   incident with a clock on it, not a backlog item; and when a gate is
+   red, the failures *behind* the first one are unmeasured — say so
+   instead of reporting the first one as the failure.
+
+This is §14 addendum 2's lesson one layer in. That one said a green tick
+is not evidence a run happened. This one says that even a run that
+happened is not evidence of the property, unless the report names the
+command that produced it.
