@@ -608,3 +608,13 @@ This is §14 addendum 2's lesson one layer in. That one said a green tick
 is not evidence a run happened. This one says that even a run that
 happened is not evidence of the property, unless the report names the
 command that produced it.
+
+## §14 addendum 3 — zero-by-blindness (DISPATCH-32, 2026-08-30)
+A counter reporting zero is a claim about the FINDER as much as the
+defect. D28 changed reveal titles div→h2; the visibility spec kept
+asking for div, silently skipped every band, and the #140 counter read
+zero for three days — read as "fixed" when it was "blind". Before
+trusting a zero: prove the instrument still finds a deliberately
+planted positive. Third dashboard lesson, joining 16-green (a suite can
+pass and have dropped a guarantee) and no-run-while-CLEAN (a gate can
+show clean with no run at all).
