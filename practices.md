@@ -618,3 +618,15 @@ trusting a zero: prove the instrument still finds a deliberately
 planted positive. Third dashboard lesson, joining 16-green (a suite can
 pass and have dropped a guarantee) and no-run-while-CLEAN (a gate can
 show clean with no run at all).
+
+## §14 addendum 4 — the legal default that hides a break (DISPATCH-40, 2026-08-31)
+A context/provider whose DEFAULT value is a valid state ({user: null} =
+"not signed in") lets an unmounted provider render identically to a
+correct one on every request the suite makes — no type error, no
+warning, same HTML — until a customer arrives in the state the suite
+never exercised. Two rules: (1) when porting, grep for every provider
+DECLARED and prove each is MOUNTED (a declaration + a comment is the
+tell); (2) every suite needs at least one test in the privileged state
+(signed-in, paid, both-platforms) — the launch gate covered content and
+structure, and a five-day revenue-path break walked through it. Fourth
+dashboard lesson.
