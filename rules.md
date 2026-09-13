@@ -63,6 +63,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 **A gate is a COMMAND AND AN EXIT CODE, never an adjective.** Report `npx tsc --noEmit → exit 0` and `npm test → 1504/1504, exit 0`, not "tsc clean" / "suite green" — an adjective is a claim about a run nobody can re-run. Assert **exit 0**; never interpret a non-zero value (tsc returns 1 or 2 for the same failing code). Four ways the number lies: a **pipe reports the pipe's** status (`tsc --noEmit | tail` exits 0 on a failing typecheck — use `set -o pipefail`); **two commands that both look like "the typecheck" disagree** (`next build` discards every diagnostic in a `*.test.*` / `*.spec.*` file); an **incremental cache replays a stale verdict in both directions** (pass `--incremental false` rather than remembering to clear it); and an **already-red gate hides the next red** — and everything behind the first failure is unmeasured, so say so.
 *(Five mis-measuring gates in one week; a typecheck red on main for nine consecutive merges while every arc reported "tsc clean".)*
 
+**An unread gate is an unbuilt gate — a red main is fixed BEFORE the next arc starts.** CI announcing a failure into a void is the same outcome as no CI, with a receipt. So the alarm goes where the work is *dispatched from* — the issue tracker — never to a channel built to be deleted; and the reading is a command with an exit code (`npm run ci:status`), never "check CI". **Three verdicts, not two:** a *cancelled* run measured NOTHING and must never read as green, and a gate that aborts mid-step leaves everything behind the first failure unmeasured — run the later checks anyway and publish both outcomes. Don't let the ref-cancelling concurrency rule cancel **main**: that discards the verdict on a commit nobody will check again.
+*(Eleven merges landed on a red main over ten days. GitHub's failure email existed the whole time and went to the founder's own account; four of those merges also had an UNKNOWN unit result behind an aborting typecheck, and two main commits were never checked at all.)*
+
 **Say when you verified less than you claim.** "Reviewed from the report only, artifact unread." "Not walked — browser unavailable." Silence implies the full check happened.
 
 ## 4 · Terminal, git, reports
@@ -122,3 +125,11 @@ push on feature branches (double-fires bill every SHA twice). Concurrency
 per ref with cancel-in-progress. Heavy jobs (browser suites) gated to
 PRs + main. A branch that needs checks opens a DRAFT PR. Proven in
 whr-web#24 (one run per SHA, before/after run IDs in the PR).
+**Amended 2026-09-13 (geni #120), founder to ratify or revert:**
+cancel-in-progress **except on `main`** — `cancel-in-progress: ${{ github.ref
+!= 'refs/heads/main' }}`. Cancelling on a shared ref discards the verdict on
+the commit underneath, and on `main` that commit is a merge nobody checks
+again: measured twice in geni-frontend (d5ab4746, 1ee3b3e4 — `unit` killed
+inside `npm ci`, never re-run, and `cancelled` reads as neither pass nor
+fail). `main` takes ~1 push per arc, so the quota cost is ~one 4-minute run
+that nobody was going to supersede; every other ref still cancels.
