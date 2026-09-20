@@ -34,7 +34,8 @@ Each rule carries the incident that produced it — that makes it defensible, an
 
 **Refuse loudly; never guess.** Ambiguous input (a two-digit year, an unparseable date, a duplicate key) is refused and listed with its row and reason. A guessed value is worse than an absent one.
 
-**Migrations:** create with `--create-only`; prod migrations apply via the deploy pipeline on push — never manually. **Regenerate the generated client after a schema change lands** — a stale client is the most common silent local breakage.
+**Migrations:** create with `--create-only`. **Prod migrations are applied by a guarded, plan-first operator script** (prints the DB/project ref, aborts unless it matches the expected ref; PLAN by default / `APPLY=1`; idempotent; reads back), run **only on explicit human OK** — never ad-hoc inline in a feature lane. **Do not assume a deploy auto-applies migrations** unless you have verified a migration runner is actually wired (a `next build`-only deploy does NOT). **Regenerate the generated client after a schema change lands** — a stale client is the most common silent local breakage.
+*(2026-09-19: the prior "apply via the deploy pipeline on push" wording was false for the BRRD repo — no runner existed; migrations 0005/0006 had to be applied by the guarded script.)*
 
 **Environment:** `set -a; source <env file>; set +a`, then echo the resolved target before running anything.
 
