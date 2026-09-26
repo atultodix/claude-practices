@@ -133,3 +133,12 @@ again: measured twice in geni-frontend (d5ab4746, 1ee3b3e4 — `unit` killed
 inside `npm ci`, never re-run, and `cancelled` reads as neither pass nor
 fail). `main` takes ~1 push per arc, so the quota cost is ~one 4-minute run
 that nobody was going to supersede; every other ref still cancels.
+
+## §4 addendum — CI minutes and lane discipline (26 Sep 2026)
+1. Docs-only pushes to main never run CI: `paths-ignore` covers evidence/**, design/incoming/**, DISPATCH-*-REPORT.md, RECON-*.md, **/*.md — and every evidence commit carries `[skip ci]` regardless.
+2. One redline round per PR. The redline is a single signed message; the lane makes one push for it. A second redline round is a coordinator failure to be booked.
+3. At most two lanes that build at the same time. A third lane may plan, read or hold, not build.
+4. Re-run failed jobs only: `gh run rerun <id> --failed`, never the whole run.
+5. Evidence is capped: screenshots at the widths walked, no videos, no per-chunk dumps; probe scripts are deleted before the evidence commit.
+6. A lane reports CI as green only for the exact head SHA it pushed (headSha == head), naming the run ID. A budget-blocked run (jobs end in 2 s with zero steps) is never called a result.
+7. Local gates first. Every lane runs tsc, the full test suite and the hydration suite on its own machine before any push and records the results in its evidence with the commit SHA. GitHub Actions runs only when the coordinator says so: a shared token, a layout every page inherits, the workflow itself, a dependency bump, or anything the founder names. A PR without a CI run says "local gates only" in its merge line.
