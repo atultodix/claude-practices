@@ -78,6 +78,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 
 **Multi-account machines:** prefix every `gh` or git-over-https block with an explicit account switch — other projects' terminals silently flip the active account. **Never put a token inside a remote URL** — it bypasses every credential helper and its expiry breaks all lanes at once.
 
+**Vercel is one seat (atultodix); membership is never the fix.** Never add, invite or approve a Vercel team member, follow a Vercel access / join / redeploy prompt, or merge as anything but atultodix. A Blocked deployment ("X is not a member of your team") is reported with its SHA and author and fixed by re-authoring as atultodix. See practices §16.7.
+*(One redeploy prompt accepted on 2026-08-16 added a second paid seat that billed unnoticed for six weeks: the Blocked symptom vanished the moment the seat appeared.)*
+
 **Branch hygiene:** prune merged branches when they exceed ~20, during the board pass. Never prune a branch absent from `--merged origin/main`; git refuses branches a worktree holds, and that refusal is the safety net.
 
 **Scheduled workflows: at most 2x/day, once daily preferred — anything more needs the founder's explicit approval.** State the cadence's reason in the workflow file.

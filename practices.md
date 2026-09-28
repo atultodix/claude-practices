@@ -522,6 +522,22 @@ PRIORITY HONESTY:
 6. **Dispatches cite only artifacts verified to exist** — naming a guard or
    test that doesn't exist sends lanes hunting phantoms or, worse, trusting
    phantom protection.
+7. **Vercel is ONE paid seat: atultodix. Membership is never the fix.**
+   Vercel blocks any deployment whose commit author is not a team member, and
+   on a blocked deploy it offers that author a "redeploy / request access"
+   prompt. Accepting it adds a paid seat. That is how `todix` (TODIX's Vercel
+   account) joined on 2026-08-16 and billed as a second seat for six weeks,
+   across 10 deploys in four repos. Nobody noticed, because the symptom we
+   watched for (Blocked) disappeared the moment the seat was added.
+   Rules: no lane adds, invites or approves a team member, follows a Vercel
+   access / join / redeploy link, or runs vercel team commands. Lanes do not
+   merge. Merges run as atultodix (the `ghmerge` shell function), never in the
+   GitHub web UI while logged in as TODIX. A Blocked deployment is REPORTED
+   (SHA + author) and fixed by re-authoring as atultodix: an empty commit
+   pushed as atultodix, or a re-merge. Never by membership.
+   Same trap, other door: adding a GitHub collaborator to a Vercel-connected
+   repo can auto-provision a seat. Stray identities seen so far: TODIX/todix
+   (2026-08-11, 2026-08-16), atultodi-ai (2026-09-21).
 
 ## §14 addendum — layered failures wear the same words (DISPATCH-16, 2026-08-23)
 Four distinct failures produced the identical symptom string ("copy is
