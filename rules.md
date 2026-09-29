@@ -128,7 +128,7 @@ push on feature branches (double-fires bill every SHA twice). Concurrency
 per ref with cancel-in-progress. Heavy jobs (browser suites) gated to
 PRs + main. A branch that needs checks opens a DRAFT PR. Proven in
 whr-web#24 (one run per SHA, before/after run IDs in the PR).
-**Amended 2026-09-13 (geni #120), founder to ratify or revert:**
+**Amended 2026-09-13 (geni #120), founder ratified 2026-09-13 (geni-frontend 042f7ad0b):**
 cancel-in-progress **except on `main`** — `cancel-in-progress: ${{ github.ref
 != 'refs/heads/main' }}`. Cancelling on a shared ref discards the verdict on
 the commit underneath, and on `main` that commit is a merge nobody checks
