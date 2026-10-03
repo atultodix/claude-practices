@@ -145,3 +145,6 @@ that nobody was going to supersede; every other ref still cancels.
 5. Evidence is capped: screenshots at the widths walked, no videos, no per-chunk dumps; probe scripts are deleted before the evidence commit.
 6. A lane reports CI as green only for the exact head SHA it pushed (headSha == head), naming the run ID. A budget-blocked run (jobs end in 2 s with zero steps) is never called a result.
 7. Local gates first. Every lane runs tsc, the full test suite and the hydration suite on its own machine before any push and records the results in its evidence with the commit SHA. GitHub Actions runs only when the coordinator says so: a shared token, a layout every page inherits, the workflow itself, a dependency bump, or anything the founder names. A PR without a CI run says "local gates only" in its merge line.
+
+## Worktrees look like plain folders (3 Oct 2026)
+A git worktree has a `.git` *file*, not a directory, so `[ -d "$d/.git" ]` reports it as "not a repo". On 3 Oct the WHR coordinator archived a live GENI lane's worktree (geni-frontend-ci-e2e-smoke) on that basis. Rule: before moving, archiving or deleting anything under ~/projects, run `git worktree list` in every repo there; a path that appears is a live tree and belongs to its lane. Lane cleanup is scoped to the lane's own `../<repo>-dNN` and `git worktree prune` on its own repo only.
