@@ -148,3 +148,6 @@ that nobody was going to supersede; every other ref still cancels.
 
 ## Worktrees look like plain folders (3 Oct 2026)
 A git worktree has a `.git` *file*, not a directory, so `[ -d "$d/.git" ]` reports it as "not a repo". On 3 Oct the WHR coordinator archived a live GENI lane's worktree (geni-frontend-ci-e2e-smoke) on that basis. Rule: before moving, archiving or deleting anything under ~/projects, run `git worktree list` in every repo there; a path that appears is a live tree and belongs to its lane. Lane cleanup is scoped to the lane's own `../<repo>-dNN` and `git worktree prune` on its own repo only.
+
+## One machine, many lanes — full-suite runs are serialised (3 Oct 2026)
+Full Playwright/e2e suites from different projects on the same Mac contend (load average 53 observed 3 Oct). Rule: a full suite runs at ≤4 workers, one project at a time, announced in the coordinators' channel before it starts and after it ends; Lighthouse, single-spec and typecheck runs need no announcement. A lane told to run its gates waits for the channel to be clear.
