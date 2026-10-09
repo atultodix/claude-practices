@@ -151,3 +151,6 @@ A git worktree has a `.git` *file*, not a directory, so `[ -d "$d/.git" ]` repor
 
 ## One machine, many lanes — full-suite runs are serialised (3 Oct 2026)
 Full Playwright/e2e suites from different projects on the same Mac contend (load average 53 observed 3 Oct). Rule: a full suite runs at ≤4 workers, one project at a time, announced in the coordinators' channel before it starts and after it ends; Lighthouse, single-spec and typecheck runs need no announcement. A lane told to run its gates waits for the channel to be clear.
+
+## One machine, full suites and builds never overlap (D88, 2026-10-06)
+On the 8 GB Mac, a full 4-worker Playwright suite and a `next build` never run at the same time: measured together they swapped ~51 GiB in 28 min and a 15 ms page took 16 s to answer. If a build must run, the suite runs at `--workers=2`. A red full suite on a machine that was building is re-measured, not believed. The contended resource is RAM, not CPU — the serialised-suite rule stands for that reason.
