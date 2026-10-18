@@ -1,6 +1,6 @@
 # Working Rules
 
-Always-on operating rules. Imported into every Claude Code session by a POINTER in `~/.claude/CLAUDE.md` → this checkout (`~/projects/claude-practices`). Refresh: `git -C ~/projects/claude-practices pull`. The pointer file carries no rules of its own.
+Always-on operating rules. Imported into every Claude Code session by a POINTER in `~/.claude/CLAUDE.md` → this checkout (`~/claude-practices`, symlinked per the README). Refresh: `git -C ~/claude-practices pull`. The pointer file carries no rules of its own.
 **Ceiling: 200 lines.** To add, remove. Full method and reasoning: `practices.md`.
 Each rule carries the incident that produced it — that makes it defensible, and prunable.
 

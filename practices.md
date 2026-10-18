@@ -415,8 +415,8 @@ One store, three consumers (architecture ruled 2026-08-19, replacing
 raw-URL fetches after C9 bit):
 
 - **The store:** the private repo `claude-practices`, checked out
-  read-mostly at `~/projects/claude-practices`. Refresh before reading:
-  `git -C ~/projects/claude-practices pull`.
+  read-mostly at `~/claude-practices`. Refresh before reading:
+  `git -C ~/claude-practices pull`.
 - **Chat sessions** read `coordinator.md` + `rules.md` from the checkout
   via the filesystem at session start (`practices.md` once per project),
   prompted automatically by the project's own instructions. A missing or
