@@ -89,7 +89,7 @@ Each rule carries the incident that produced it — that makes it defensible, an
 **CI triggers: `pull_request` + `push` to main only — never bare `push`; `concurrency` with `cancel-in-progress` always; heavy suites (browser e2e) on PR/main only, fast checks may run wider.** The same SHA must never bill twice.
 *(A high-tempo week fired a five-job Playwright pipeline twice per commit — ~2,400 minutes in five days, a second dead quota three days after the first.)*
 
-**Local merge by default; a draft PR when the change is infrastructural** — CI, auth, migrations, the workflow itself — so checks run *before* the merge rather than after.
+**Local merge by default; a PR when the change is infrastructural** — CI, auth, migrations, the workflow itself — so checks run *before* the merge rather than after (iterate as a draft; mark it ready to get checks).
 *(A CI change merged straight to main would have broken the gate with no warning.)*
 
 ## 5 · What the product must never do
@@ -126,7 +126,9 @@ Each rule carries the incident that produced it — that makes it defensible, an
 trigger on `pull_request` + `push: branches: [main]` only — never bare
 push on feature branches (double-fires bill every SHA twice). Concurrency
 per ref with cancel-in-progress. Heavy jobs (browser suites) gated to
-PRs + main. A branch that needs checks opens a DRAFT PR. Proven in
+PRs + main. Iterate as a draft PR (drafts run no heavy CI). To get
+checks, mark it ready; add the ci:full label first if Lane A classifies
+it rule 7 by judgement rather than path. Proven in
 whr-web#24 (one run per SHA, before/after run IDs in the PR).
 **Amended 2026-09-13 (geni #120), founder ratified 2026-09-13 (geni-frontend 042f7ad0b):**
 cancel-in-progress **except on `main`** — `cancel-in-progress: ${{ github.ref
@@ -138,7 +140,7 @@ fail). `main` takes ~1 push per arc, so the quota cost is ~one 4-minute run
 that nobody was going to supersede; every other ref still cancels.
 
 ## §4 addendum — CI minutes and lane discipline (26 Sep 2026)
-1. Docs-only pushes to main never run CI: `paths-ignore` covers evidence/**, design/incoming/**, DISPATCH-*-REPORT.md, RECON-*.md, **/*.md — and every evidence commit carries `[skip ci]` regardless.
+1. Docs-only changes never run heavy CI: the workflow's plan job skips every heavy job for evidence/**, design/incoming/**, DISPATCH-*-REPORT.md, RECON-*.md, **/*.md (CONVENTIONS.md excepted), so the required plan check still reports; evidence commits still carry [skip ci].
 2. One redline round per PR. The redline is a single signed message; the lane makes one push for it. A second redline round is a coordinator failure to be booked.
 3. At most two lanes that build at the same time. A third lane may plan, read or hold, not build.
 4. Re-run failed jobs only: `gh run rerun <id> --failed`, never the whole run.

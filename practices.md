@@ -246,11 +246,13 @@
 - **Idle worktrees sit on whatever branch they last built.** Park them on
   `main` when a flight ends, or rely on every dispatch saying "off main, pull
   first" — which it should say anyway.
-- **Local merge by default; a draft PR when the change is infrastructural.**
+- **Local merge by default; a PR when the change is infrastructural.**
   Local `--no-ff` merges keep a readable history and put the decision after the
   review. But when the change touches CI, auth, migrations or the workflow
-  itself, open a draft PR first so the checks run BEFORE the merge — otherwise
-  a broken gate lands on `main` with no warning.
+  itself, open a PR first so the checks run BEFORE the merge — otherwise
+  a broken gate lands on `main` with no warning. Iterate as a draft PR (drafts
+  run no heavy CI). To get checks, mark it ready; add the ci:full label first
+  if Lane A classifies it rule 7 by judgement rather than path.
 
 ---
 
