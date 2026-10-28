@@ -142,7 +142,7 @@ that nobody was going to supersede; every other ref still cancels.
 ## §4 addendum — CI minutes and lane discipline (26 Sep 2026)
 1. Docs-only changes never run heavy CI: the workflow's plan job skips every heavy job for evidence/**, design/incoming/**, DISPATCH-*-REPORT.md, RECON-*.md, **/*.md (CONVENTIONS.md excepted), so the required plan check still reports; evidence commits still carry [skip ci].
 2. One redline round per PR. The redline is a single signed message; the lane makes one push for it. A second redline round is a coordinator failure to be booked.
-3. At most two lanes that build at the same time. A third lane may plan, read or hold, not build.
+3. **Up to four lanes may build at the same time, standing, while the machine copes (founder, 28 Oct 2026, geni D248; replaces "at most two").** Every full vitest and hydration run goes through the heavy lock, and a lane uses `ci:hydration` when the lock is busy. **Pause trigger:** if load stays above 12 for 10 minutes, or a red is traced to overload (a stall or timeout that passes when re-run alone), the coordinator pauses the lowest-priority lane until it clears. Priority: cutover work > onboarding > everything else.
 4. Re-run failed jobs only: `gh run rerun <id> --failed`, never the whole run.
 5. Evidence is capped: screenshots at the widths walked, no videos, no per-chunk dumps; probe scripts are deleted before the evidence commit.
 6. A lane reports CI as green only for the exact head SHA it pushed (headSha == head), naming the run ID. A budget-blocked run (jobs end in 2 s with zero steps) is never called a result.
